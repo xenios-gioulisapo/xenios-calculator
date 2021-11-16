@@ -34,7 +34,11 @@ foreach ($data as $key => $val) {
         <select name="base_coin">
             <?php
             foreach (array_unique($market_pairs) as &$value) {
-                echo ('<option>' . $value . '</option>');
+                if (isset($_GET['base_coin']) and trim($value) == trim($_GET['base_coin'])) {
+                    echo ('<option selected>' . $value . '</option>');
+                } else {
+                    echo ('<option>' . $value . '</option>');
+                }
             }
             ?>
         </select>
@@ -42,7 +46,7 @@ foreach ($data as $key => $val) {
         <select name="market_coin">
             <?php
             foreach (array_unique($base_pairs) as &$value) {
-                if (isset($_GET['base_coin']) and trim($value) == trim($_GET['base_coin'])) {
+                if (isset($_GET['base_coin']) and trim($value) == trim($_GET['market_coin'])) {
                     echo ('<option selected>' . $value . '</option>');
                 } else {
                     echo ('<option>' . $value . '</option>');
@@ -65,7 +69,7 @@ foreach ($data as $key => $val) {
                     $result = round(1 / (float)$data[$to_coin . '_' . $from_coin]['last'] * (float)$amount, 8);
                     printf("%f", $result); // floating point representation
                 } else {
-                    echo ('Not Valid Pair'. $from_coin.'_'.$to_coin);
+                    echo ('Invalid Pair '. $from_coin.'_'.$to_coin);
                 }
             } else {
                 echo '0';
